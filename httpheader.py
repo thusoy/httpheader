@@ -1122,20 +1122,19 @@ def parse_accept_header( header_value ):
     (from most-prefered to least-prefered).  Each item in the returned
     list is actually a tuple consisting of:
 
-       ( item_name, item_parms, qvalue, accept_parms )
+       ( content_type, qvalue, accept_parms )
 
     As an example, the following string,
         text/plain; charset="utf-8"; q=.5; columns=80
     would be parsed into this resulting tuple,
-        ( 'text/plain', [('charset','utf-8')], 0.5, [('columns','80')] )
+        ( content_type('text/plain, parmdict={'charset': 'utf-8'}), 0.5, [('columns','80')] )
 
     The value of the returned item_name depends upon which header is
     being parsed, but for example it may be a MIME content or media
     type (without parameters), a language tag, or so on.  Any optional
     parameters (delimited by semicolons) occuring before the "q="
-    attribute will be in the item_parms list as (attribute,value)
-    tuples in the same order as they appear in the header.  Any quoted
-    values will have been unquoted and unescaped.
+    attribute will be in the parmdict property of the content_type.
+    Any quoted values will have been unquoted and unescaped.
 
     The qvalue is a floating point number in the inclusive range 0.0
     to 1.0, and roughly indicates the preference for this item.
